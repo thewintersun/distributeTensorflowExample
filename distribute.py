@@ -4,8 +4,8 @@ import tensorflow as tf
 
 # Define parameters
 FLAGS = tf.app.flags.FLAGS
-flags.DEFINE_float('learning_rate', 0.01, 'Initial learning rate.')
-flags.DEFINE_integer('steps_to_validate', 100,
+tf.app.flags.DEFINE_float('learning_rate', 0.01, 'Initial learning rate.')
+tf.app.flags.DEFINE_integer('steps_to_validate', 100,
                      'Steps to validate and print loss')
 
 # For distributed
