@@ -4,7 +4,7 @@ import tensorflow as tf
 
 # Define parameters
 FLAGS = tf.app.flags.FLAGS
-tf.app.flags.DEFINE_float('learning_rate', 0.0000001, 'Initial learning rate.')
+tf.app.flags.DEFINE_float('learning_rate', 0.00001, 'Initial learning rate.')
 tf.app.flags.DEFINE_integer('steps_to_validate', 1000,
                      'Steps to validate and print loss')
 
