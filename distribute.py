@@ -37,8 +37,8 @@ def main(_):
       input = tf.placeholder("float")
       label = tf.placeholder("float")
 
-      weight = tf.get_variable("weight", [1], tf.float32, initializer=tf.random_normal_initializer)
-      biase  = tf.get_variable("biase", [1], tf.float32, initializer=tf.random_normal_initializer)
+      weight = tf.get_variable("weight", [1], tf.float32, initializer=tf.random_normal_initializer())
+      biase  = tf.get_variable("biase", [1], tf.float32, initializer=tf.random_normal_initializer())
       pred = tf.mul(input, weight) + biase
 
       loss_value = loss(label, pred)
