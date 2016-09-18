@@ -59,7 +59,7 @@ def main(_):
                             save_model_secs=60)      
     with sv.managed_session(server.target) as sess:
       step = 0
-      while step < 1000000:
+      while  not sv.should_stop() and  step < 1000000:
         train_x = np.random.randn(1)
         train_y = 2 * train_x + np.random.randn(1) * 0.33  + 10
         _, loss_v, step = sess.run([train_op, loss_value,global_step], feed_dict={input:train_x, label:train_y})
