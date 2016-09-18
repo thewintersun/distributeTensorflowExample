@@ -4,8 +4,8 @@ import tensorflow as tf
 
 # Define parameters
 FLAGS = tf.app.flags.FLAGS
-tf.app.flags.DEFINE_float('learning_rate', 0.01, 'Initial learning rate.')
-tf.app.flags.DEFINE_integer('steps_to_validate', 100,
+tf.app.flags.DEFINE_float('learning_rate', 0.000000001, 'Initial learning rate.')
+tf.app.flags.DEFINE_integer('steps_to_validate', 100000,
                      'Steps to validate and print loss')
 
 # For distributed
@@ -43,7 +43,7 @@ def main(_):
 
       loss_value = loss(label, pred)
 
-      train_op = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss_value)
+      train_op = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss_value, global_step=global_step)
       init_op = tf.initialize_all_variables()
       
       saver = tf.train.Saver()
