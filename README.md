@@ -75,4 +75,7 @@ CUDA_VISIBLE_DEVICES=0 python distribute.py --ps_hosts=192.168.100.42:2222 --wor
 
 ```
 
-
+## 分布式介绍中文文档
+```
+http://blog.csdn.net/luodongri/article/details/52596780
+```
