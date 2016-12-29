@@ -15,6 +15,7 @@ tf.app.flags.DEFINE_string("worker_hosts", "",
                            "Comma-separated list of hostname:port pairs")
 tf.app.flags.DEFINE_string("job_name", "", "One of 'ps', 'worker'")
 tf.app.flags.DEFINE_integer("task_index", 0, "Index of task within the job")
+tf.app.flags.DEFINE_integer("issync", 0, "是否采用分布式的同步模式，1表示同步模式，0表示异步模式")
 
 # Hyperparameters
 learning_rate = FLAGS.learning_rate
@@ -26,6 +27,7 @@ def main(_):
   cluster = tf.train.ClusterSpec({"ps": ps_hosts, "worker": worker_hosts})
   server = tf.train.Server(cluster,job_name=FLAGS.job_name,task_index=FLAGS.task_index)
 
+  issync = FLAGS.issync
   if FLAGS.job_name == "ps":
     server.join()
   elif FLAGS.job_name == "worker":
@@ -42,8 +44,28 @@ def main(_):
       pred = tf.mul(input, weight) + biase
 
       loss_value = loss(label, pred)
+      optimizer = tf.train.GradientDescentOptimizer(learning_rate)
 
-      train_op = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss_value, global_step=global_step)
+      grads_and_vars = optimizer.compute_gradients(loss_value)
+      if issync == 1:
+        #同步模式计算更新梯度
+        rep_op = tf.train.SyncReplicasOptimizer(optimizer,
+                                                replicas_to_aggregate=len(
+                                                  worker_hosts),
+                                                replica_id=FLAGS.task_index,
+                                                total_num_replicas=len(
+                                                  worker_hosts),
+                                                use_locking=True)
+        train_op = rep_op.apply_gradients(grads_and_vars,
+                                       global_step=global_step)
+        init_token_op = rep_op.get_init_tokens_op()
+        chief_queue_runner = rep_op.get_chief_queue_runner()
+      else:
+        #异步模式计算更新梯度
+        train_op = optimizer.apply_gradients(grads_and_vars,
+                                       global_step=global_step)
+
+
       init_op = tf.initialize_all_variables()
       
       saver = tf.train.Saver()
@@ -56,8 +78,13 @@ def main(_):
                             summary_op=None,
                             saver=saver,
                             global_step=global_step,
-                            save_model_secs=60)      
-    with sv.managed_session(server.target) as sess:
+                            save_model_secs=60)
+
+    with sv.prepare_or_wait_for_session(server.target) as sess:
+      # 如果是同步模式
+      if FLAGS.task_index == 0 and issync == 1:
+        sv.start_queue_runners(sess, [chief_queue_runner])
+        sess.run(init_token_op)
       step = 0
       while  step < 1000000:
         train_x = np.random.randn(1)
