@@ -41,7 +41,7 @@ def main(_):
 
       weight = tf.get_variable("weight", [1], tf.float32, initializer=tf.random_normal_initializer())
       biase  = tf.get_variable("biase", [1], tf.float32, initializer=tf.random_normal_initializer())
-      pred = tf.mul(input, weight) + biase
+      pred = tf.multiply(input, weight) + biase
 
       loss_value = loss(label, pred)
       optimizer = tf.train.GradientDescentOptimizer(learning_rate)
@@ -69,8 +69,8 @@ def main(_):
       init_op = tf.initialize_all_variables()
       
       saver = tf.train.Saver()
-      tf.scalar_summary('cost', loss_value)
-      summary_op = tf.merge_all_summaries()
+      tf.summary.scalar('cost', loss_value)
+      summary_op = tf.summary.merge_all()
  
     sv = tf.train.Supervisor(is_chief=(FLAGS.task_index == 0),
                             logdir="./checkpoint/",
