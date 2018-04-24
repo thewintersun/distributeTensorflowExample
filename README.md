@@ -1,45 +1,4 @@
 # distributeTensorflowExample
-distribute tensorflow  example
-
-this is a distribute tensorflow example to compute y = weight * x + biasis
-
-
-## Introduce
-
-```
-This is a most simple example for distributed tensorflow.
-
-The task is to estimate the paramters of the formula : Y = 2 * X + 10
-
-the paramter weight is the number 2, 
-
-the paramter biasis is the number 10.
-
-
-
-```
-
-
-
-## run example
-
-
-```
-ps server:
-
-CUDA_VISIBLE_DEVICES='' python distribute.py --ps_hosts=192.168.100.42:2222 --worker_hosts=192.168.100.42:2224,192.168.100.253:2225 --job_name=ps --task_index=0
-
-
-
-worker server:
-
-CUDA_VISIBLE_DEVICES=0 python distribute.py --ps_hosts=192.168.100.42:2222 --worker_hosts=192.168.100.42:2224,192.168.100.253:2225 --job_name=worker --task_index=0
-
-CUDA_VISIBLE_DEVICES=0 python distribute.py --ps_hosts=192.168.100.42:2222 --worker_hosts=192.168.100.42:2224,192.168.100.253:2225 --job_name=worker --task_index=1
-
-```
-
-
 
 ## 说明
 
@@ -82,8 +41,55 @@ http://blog.csdn.net/luodongri/article/details/52596780
 
 ## 更多tensorflow和深度学习的内容，请参考我的书《tensorflow入门与实战》 
 ```
-这本书可能深度学习入门的内容占了一半，都是很基础和入门的，如果刚入门的可以看看，自认为比网上看吴恩达的教程更容易看懂。
+这本书可能深度学习入门的内容占了一半，都是很基础和入门的.
+
+如果刚入门的可以看看，自认为比网上看吴恩达的教程更容易看懂。
+
 如果是已经比较熟悉Tensorflow和深度学习了，可以不用看了。
+
 链接：
-https://item.jd.com/12307221.html
+[https://item.jd.com/12307221.html](https://item.jd.com/12307221.html)
 ```
+
+
+
+
+this is a distribute tensorflow example to compute y = weight * x + biasis
+
+
+## Introduce
+
+```
+This is a most simple example for distributed tensorflow.
+
+The task is to estimate the paramters of the formula : Y = 2 * X + 10
+
+the paramter weight is the number 2, 
+
+the paramter biasis is the number 10.
+
+
+
+```
+
+
+
+## run example
+
+
+```
+ps server:
+
+CUDA_VISIBLE_DEVICES='' python distribute.py --ps_hosts=192.168.100.42:2222 --worker_hosts=192.168.100.42:2224,192.168.100.253:2225 --job_name=ps --task_index=0
+
+
+
+worker server:
+
+CUDA_VISIBLE_DEVICES=0 python distribute.py --ps_hosts=192.168.100.42:2222 --worker_hosts=192.168.100.42:2224,192.168.100.253:2225 --job_name=worker --task_index=0
+
+CUDA_VISIBLE_DEVICES=0 python distribute.py --ps_hosts=192.168.100.42:2222 --worker_hosts=192.168.100.42:2224,192.168.100.253:2225 --job_name=worker --task_index=1
+
+```
+
+
