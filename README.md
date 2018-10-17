@@ -5,9 +5,9 @@
 http://blog.csdn.net/luodongri/article/details/52596780
 ```
 
-## 更多tensorflow和深度学习的内容，请参考我的书[https://item.jd.com/12307221.html](《tensorflow入门与实战》 )
+## 更多tensorflow和深度学习的内容，请参考我的书《tensorflow入门与实战》 
 ```
-这本书可能深度学习入门的内容占了一半，都是很基础和入门的.
+这本书深度学习入门的内容占了一半，都是很基础和入门的.
 
 如果刚入门的可以看看，自认为比网上看吴恩达的教程更容易看懂。
 
